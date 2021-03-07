@@ -18,15 +18,9 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -54,12 +48,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import com.example.androiddevchallenge.ui.theme.shapes
 
-@ExperimentalAnimationApi
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,8 +63,6 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-// Start building your app here!
-@ExperimentalAnimationApi
 @Composable
 fun MyApp(modifier: Modifier) {
     val viewModel: MainViewModel = viewModel()
@@ -87,16 +77,11 @@ fun MyApp(modifier: Modifier) {
                 .weight(4f),
             seconds = viewModel.clock
         )
-        AnimatedVisibility(
-            visible = !viewModel.started,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(2f),
-            enter = fadeIn(),
-            exit = fadeOut(),
-        ) {
+        if (!viewModel.started) {
             timePicker(
-                modifier = modifier
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2f),
             )
         }
         bottomMenu(
@@ -107,7 +92,6 @@ fun MyApp(modifier: Modifier) {
     }
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun counterDown(modifier: Modifier, seconds: Int) {
     ConstraintLayout(
@@ -231,10 +215,12 @@ fun timePicker(modifier: Modifier) {
         ) {
             IconButton(
                 onClick = { viewModel.incHour() },
-                Modifier.background(
-                    Color.LightGray,
-                    shape = shapes.large
-                ).size(32.dp, 32.dp),
+                Modifier
+                    .background(
+                        Color.LightGray,
+                        shape = shapes.large
+                    )
+                    .size(32.dp, 32.dp),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_inc),
@@ -254,10 +240,12 @@ fun timePicker(modifier: Modifier) {
             )
             IconButton(
                 onClick = { viewModel.decHour() },
-                Modifier.background(
-                    Color.LightGray,
-                    shape = shapes.large
-                ).size(32.dp, 32.dp),
+                Modifier
+                    .background(
+                        Color.LightGray,
+                        shape = shapes.large
+                    )
+                    .size(32.dp, 32.dp),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_dec),
@@ -274,10 +262,12 @@ fun timePicker(modifier: Modifier) {
         ) {
             IconButton(
                 onClick = { viewModel.incMinute() },
-                Modifier.background(
-                    Color.LightGray,
-                    shape = shapes.large
-                ).size(32.dp, 32.dp),
+                Modifier
+                    .background(
+                        Color.LightGray,
+                        shape = shapes.large
+                    )
+                    .size(32.dp, 32.dp),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_inc),
@@ -297,10 +287,12 @@ fun timePicker(modifier: Modifier) {
             )
             IconButton(
                 onClick = { viewModel.decMinute() },
-                Modifier.background(
-                    Color.LightGray,
-                    shape = shapes.large
-                ).size(32.dp, 32.dp),
+                Modifier
+                    .background(
+                        Color.LightGray,
+                        shape = shapes.large
+                    )
+                    .size(32.dp, 32.dp),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_dec),
@@ -317,10 +309,12 @@ fun timePicker(modifier: Modifier) {
         ) {
             IconButton(
                 onClick = { viewModel.incSecond() },
-                Modifier.background(
-                    Color.LightGray,
-                    shape = shapes.large
-                ).size(32.dp, 32.dp),
+                Modifier
+                    .background(
+                        Color.LightGray,
+                        shape = shapes.large
+                    )
+                    .size(32.dp, 32.dp),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_inc),
@@ -340,10 +334,12 @@ fun timePicker(modifier: Modifier) {
             )
             IconButton(
                 onClick = { viewModel.decSecond() },
-                Modifier.background(
-                    Color.LightGray,
-                    shape = shapes.large
-                ).size(32.dp, 32.dp),
+                Modifier
+                    .background(
+                        Color.LightGray,
+                        shape = shapes.large
+                    )
+                    .size(32.dp, 32.dp),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_dec),
@@ -357,7 +353,6 @@ fun timePicker(modifier: Modifier) {
     }
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun bottomMenu(modifier: Modifier) {
     val viewModel: MainViewModel = viewModel()
@@ -375,11 +370,7 @@ fun bottomMenu(modifier: Modifier) {
             )
         }
 
-        AnimatedVisibility(
-            visible = !viewModel.started,
-            enter = slideInHorizontally(),
-            exit = slideOutHorizontally()
-        ) {
+        if (!viewModel.started) {
             IconButton(onClick = { viewModel.startCountdown() }) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_start), contentDescription = null,
@@ -392,7 +383,6 @@ fun bottomMenu(modifier: Modifier) {
     }
 }
 
-@ExperimentalAnimationApi
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun LightPreview() {
@@ -401,7 +391,6 @@ fun LightPreview() {
     }
 }
 
-@ExperimentalAnimationApi
 @Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun DarkPreview() {
